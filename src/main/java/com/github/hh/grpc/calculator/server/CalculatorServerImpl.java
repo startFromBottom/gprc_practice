@@ -35,4 +35,5 @@ public class CalculatorServerImpl extends CalculatorServiceGrpc.CalculatorServic
         responseObserver.onCompleted();
 
     }
+
 }
