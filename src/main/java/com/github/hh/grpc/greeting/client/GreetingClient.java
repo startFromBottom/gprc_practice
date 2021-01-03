@@ -1,6 +1,10 @@
 package com.github.hh.grpc.greeting.client;
 
 import com.proto.dummy.DummyServiceGrpc;
+import com.proto.greet.GreetRequest;
+import com.proto.greet.GreetResponse;
+import com.proto.greet.GreetServiceGrpc;
+import com.proto.greet.Greeting;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -15,13 +19,31 @@ public class GreetingClient {
 
 
         System.out.println("Creating Stub");
-        DummyServiceGrpc.DummyServiceBlockingStub syncClient = DummyServiceGrpc.newBlockingStub(channel);
-
-        //
+        // old and dummy
+//        DummyServiceGrpc.DummyServiceBlockingStub syncClient = DummyServiceGrpc.newBlockingStub(channel);
         // DummyServiceGrpc.DummyServiceFutureStub asyncClient = DummyServiceGrpc.newFutureStub(channel);
 
-        // do something
+        // created a greet service client (blocking - synchronous)
+        GreetServiceGrpc.GreetServiceBlockingStub greetClient = GreetServiceGrpc.newBlockingStub(channel);
 
+        // created a protocol buffer greeting message
+        Greeting greeting = Greeting.newBuilder()
+                .setFirstName("Stitch")
+                .setLastName("HH")
+                .build();
+
+        // do the same for a GreetRequest
+        GreetRequest greetRequest = GreetRequest.newBuilder()
+                .setGreeting(greeting)
+                .build();
+
+        // call the RPC and get back a GreetResponse(protocol buffers)
+        // 마치 server의 greet 메서드를 직접 호출하는 것처럼 보이지만, 네트워크를 타는 것!
+        GreetResponse greetResponse = greetClient.greet(greetRequest);
+
+        System.out.println(greetResponse.getResult());
+
+        // do something
         System.out.println("Shutting down channel");
         channel.shutdown();
 
