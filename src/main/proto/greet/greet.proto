@@ -14,12 +14,12 @@ message GreetRequest {
   Greeting greeting = 1;
 }
 
-message GreetingResponse {
+message GreetResponse {
   string result = 1;
 }
 
 service GreetService {
   // Unary
-  rpc Greet(GreetRequest) returns (GreetingResponse) {};
+  rpc Greet(GreetRequest) returns (GreetResponse) {};
 
 }
