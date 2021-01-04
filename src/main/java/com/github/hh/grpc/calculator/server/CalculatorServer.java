@@ -10,7 +10,7 @@ public class CalculatorServer {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         Server server = ServerBuilder.forPort(50052)
-                .addService(new CalculatorServerImpl())
+                .addService(new calculatorServiceImpl())
                 .build();
 
         server.start();
