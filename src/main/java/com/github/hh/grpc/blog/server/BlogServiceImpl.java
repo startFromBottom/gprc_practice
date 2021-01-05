@@ -114,7 +114,8 @@ public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
         } else {
             Document replacement = new Document("author_id", blog.getAuthorId())
                     .append("title", request.getBlog().getTitle())
-                    .append("content", request.getBlog().getContent());
+                    .append("content", request.getBlog().getContent())
+                    .append("_id", new ObjectId(blogId));
 
             System.out.println("Replacing blog in database.");
 
@@ -132,6 +133,7 @@ public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
     }
 
     private Blog documentToBlog(Document document) {
+
         return Blog.newBuilder()
                 .setAuthorId(document.getString("author_id"))
                 .setTitle(document.getString("title"))
