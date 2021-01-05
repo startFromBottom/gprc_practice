@@ -1,10 +1,7 @@
 package com.github.hh.grpc.blog.client;
 
 
-import com.proto.calculator.Blog;
-import com.proto.calculator.BlogServiceGrpc;
-import com.proto.calculator.CreateBlogRequest;
-import com.proto.calculator.CreateBlogResponse;
+import com.proto.calculator.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -36,6 +33,23 @@ public class BlogClient {
 
         System.out.println("Received create blog response");
         System.out.println(createResponse.toString());
+
+        String blogId = createResponse.getBlog().getId();
+
+        System.out.println("Reading blog ....");
+
+        ReadBlogResponse readBlogResponse = blogClient.readBlog(ReadBlogRequest.newBuilder()
+                .setBlogId(blogId)
+                .build());
+
+        System.out.println(readBlogResponse.toString());
+
+        // trigger not found error
+//        System.out.println("Reading blog with non existing id...");
+//
+//        ReadBlogResponse readBlogResponseNotFound = blogClient.readBlog(ReadBlogRequest.newBuilder()
+//                .setBlogId("5ff46475f3fba2082df3ddc5")
+//                .build());
 
     }
 }

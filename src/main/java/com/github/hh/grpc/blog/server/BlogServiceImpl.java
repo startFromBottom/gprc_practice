@@ -50,11 +50,25 @@ public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
         System.out.println("Received Read Blog request.");
         String blogId = request.getBlogId();
         System.out.println("Searching for a blog.");
-        Document result = collection.find(eq("_id", new ObjectId(blogId))).first();
+        Document result = null;
+
+        try {
+            result = collection.find(eq("_id", new ObjectId(blogId))).first();
+        } catch (Exception e) {
+            responseObserver.onError(
+                    Status.NOT_FOUND
+                            .withDescription("The blog with the corresponding id was not found.")
+                            .augmentDescription(e.getLocalizedMessage())
+                            .asRuntimeException()
+            );
+        }
+
         if (result == null) {
             System.out.println("Blog not found.");
+            // we don't have a match
             responseObserver.onError(
-                    Status.NOT_FOUND.withDescription("The blog with the corresponding id was not found.")
+                    Status.NOT_FOUND
+                            .withDescription("The blog with the corresponding id was not found.")
                             .asRuntimeException()
             );
         } else {
