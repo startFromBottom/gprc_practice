@@ -10,7 +10,7 @@ public class BlogServer {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         Server server = ServerBuilder.forPort(50051)
-//                .addService(new BlogServiceImpl())
+                .addService(new BlogServiceImpl())
                 .build();
 
         server.start();
