@@ -1,18 +1,16 @@
-package com.github.hh.grpc.calculator.server;
+package com.github.hh.grpc.blog.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.protobuf.services.ProtoReflectionService;
 
 import java.io.IOException;
 
-public class CalculatorServer {
+public class BlogServer {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        Server server = ServerBuilder.forPort(50052)
-                .addService(new calculatorServiceImpl())
-                .addService(ProtoReflectionService.newInstance()) // reflection
+        Server server = ServerBuilder.forPort(50051)
+//                .addService(new BlogServiceImpl())
                 .build();
 
         server.start();
